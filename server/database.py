@@ -40,3 +40,8 @@ async def fetch_one_todo(title):
 async def remove_todo(title):
     await collection.delete_one({"title": title})
     return True
+
+
+async def delete_all_todos():
+    await collection.delete_many({})
+    return True

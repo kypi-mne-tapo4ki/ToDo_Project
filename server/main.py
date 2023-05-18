@@ -9,6 +9,7 @@ from database import (
     update_todo,
     fetch_one_todo,
     remove_todo,
+    delete_all_todos,
 )
 
 app = FastAPI()
@@ -65,3 +66,9 @@ async def delete_todo(title):
     if response:
         return True
     raise HTTPException(404, f"There is no todo with the title {title}")
+
+
+@app.delete("/api/todo/")
+async def delete_all_todos_handler():
+    response = await delete_all_todos()
+    return response
