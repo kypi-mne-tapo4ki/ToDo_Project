@@ -14,7 +14,7 @@ function App() {
       .then(res => {
         setTodoList(res.data)
       })
-  });
+  }, []);
 
   const addTodoHandler = () => {
     axios.post('http://localhost:8001/api/todo/', { 'title': title, 'description': desc })

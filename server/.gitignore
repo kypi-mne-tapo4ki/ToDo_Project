@@ -2,3 +2,5 @@ venv
 .idea/
 .idea/*
 __pycache__
+.DS_Store
+server/.DS_Store

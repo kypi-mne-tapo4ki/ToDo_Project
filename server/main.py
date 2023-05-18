@@ -38,6 +38,8 @@ async def post_todo(todo: ToDo):
     response = await creat_todo(todo.dict())
     if response:
         return response
+    elif response == None:
+        raise HTTPException(409, "A task with this name already exists")
     raise HTTPException(400, "Something went wrong")
 
 
@@ -61,5 +63,5 @@ async def get_todo_by_id(title):
 async def delete_todo(title):
     response = await remove_todo(title)
     if response:
-        return "Successfully deleted todo"
+        return True
     raise HTTPException(404, f"There is no todo with the title {title}")

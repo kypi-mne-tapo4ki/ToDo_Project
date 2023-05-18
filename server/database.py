@@ -1,6 +1,7 @@
 import motor.motor_asyncio
 from model import ToDo
 
+
 client = motor.motor_asyncio.AsyncIOMotorClient()
 
 db = client.tododb
@@ -16,9 +17,13 @@ async def fetch_all_todos():
 
 
 async def creat_todo(todo):
-    document = todo
-    result = await collection.insert_one(document)
-    return document
+    check_db = await collection.find_one({"title": todo["title"]})
+    if check_db:
+        return None
+    else:
+        document = todo
+        result = await collection.insert_one(document)
+        return document
 
 
 async def update_todo(title, desc):
