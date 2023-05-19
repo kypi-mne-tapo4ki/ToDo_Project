@@ -9,21 +9,17 @@ collection = db.todo
 
 
 async def fetch_all_todos():
-    todos = []
-    cursor = collection.find({})
-    async for document in cursor:
-        todos.append(ToDo(**document))
+    todos = [ToDo(**doc) async for doc in collection.find({})]
     return todos
 
 
-async def creat_todo(todo):
+async def create_todo(todo):
     check_db = await collection.find_one({"title": todo["title"]})
     if check_db:
         return None
     else:
-        document = todo
-        result = await collection.insert_one(document)
-        return document
+        result = await collection.insert_one(todo)
+        return result
 
 
 async def update_todo(title, desc):
