@@ -28,10 +28,10 @@ async def get_todo():
 
 @app.post("/api/todo/", response_model=ToDo)
 async def post_todo(todo: ToDo):
-    response = await database.create_todo(todo.dict())
+    response = await database.create_todo(todo)
     if response:
         return response
-    elif response == None:
+    elif response is None:
         raise HTTPException(409, "A task with this name already exists")
     raise HTTPException(400, "Something went wrong")
 
@@ -52,16 +52,29 @@ async def get_todo_by_id(title):
     raise HTTPException(404, f"There is no todo with the title {title}")
 
 
+@app.get("/api/trashbin")
+async def get_trash_bin():
+    response = await database.fetch_trash_bin()
+    return response
+
+
 @app.delete("/api/todo/{title}", response_model=ToDo)
 async def delete_todo(title):
     response = await database.remove_todo(title)
     if response:
-        document = await database.move_to_trash(response)
-        return document
+        document = await database.move_to_trash_bin(response)
+        if document:
+            return document
     raise HTTPException(404, f"There is no todo with the title {title}")
 
 
 @app.delete("/api/todo/")
 async def delete_all_todos_handler():
-    response = await database.delete_all_todos()
+    response = await database.delete_all_todos(database.main_list)
+    return response
+
+
+@app.delete("/api/trashbin/")
+async def delete_all_trash_handler():
+    response = await database.delete_all_todos(database.trash_bin)
     return response

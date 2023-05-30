@@ -4,7 +4,7 @@ from beanie import PydanticObjectId
 
 
 class ToDo(BaseModel):
-    _id = PydanticObjectId
+    _id = PydanticObjectId | None
     title: str
     description: str
     time: datetime = None
