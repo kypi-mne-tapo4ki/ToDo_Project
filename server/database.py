@@ -6,6 +6,7 @@ client = motor.motor_asyncio.AsyncIOMotorClient()
 
 db = client.tododb
 collection = db.todo
+trash_bin = db.trash
 
 
 async def fetch_all_todos():
@@ -38,6 +39,13 @@ async def remove_todo(title):
     return True
 
 
-async def delete_all_todos():
-    await collection.delete_many({})
-    return True
+async def remove_todo(title):
+    document = await collection.find_one({"title": title})
+    await collection.delete_one({"title": title})
+    # del document["_id"]
+    return document
+
+
+async def move_to_trash(todo):
+    document = await trash_bin.insert_one(todo)
+    return document

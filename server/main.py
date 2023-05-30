@@ -56,7 +56,8 @@ async def get_todo_by_id(title):
 async def delete_todo(title):
     response = await database.remove_todo(title)
     if response:
-        return True
+        document = await database.move_to_trash(response)
+        return document
     raise HTTPException(404, f"There is no todo with the title {title}")
 
 
