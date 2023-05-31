@@ -19,7 +19,7 @@ function App() {
   }, []);
 
     useEffect(() => {
-    axios.get('http://localhost:8001/api/trashbin')
+    axios.get('http://localhost:8001/api/trash-bin')
       .then(res => {
         setTrashList(res.data)
       })
@@ -27,7 +27,11 @@ function App() {
 
   const addTodoHandler = () => {
     axios.post('http://localhost:8001/api/todo/', { 'title': title, 'description': desc })
-      .then(res => console.log(res))
+      .then(res =>
+      {
+          console.log(res)
+          window.location.reload()
+      })
   }
 
   return (
