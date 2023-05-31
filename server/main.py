@@ -103,4 +103,7 @@ async def permanently_delete_todo(title):
     response = await database.permanently_remove_todo(title)
     if response:
         return response
-    raise HTTPException(404, f"There is no todo with the title '{title}'")
+    raise HTTPException(
+        status.HTTP_404_NOT_FOUND,
+        f"There is no todo with the title '{title}'"
+    )
