@@ -8,4 +8,4 @@ cd server
 uvicorn main:app --host localhost --port 8001
 cd client
 npm install
-npm start```
+npm start
